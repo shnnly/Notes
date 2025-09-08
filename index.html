@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+
+  <script src="script.js" defer></script>
+  <script src="sw.js" defer></script>
+
+</head>
+<body>
+
+<div class="notes-container">
+  <header>
+    <button id="backBtnMain" class="back-btn hidden">&lt;</button>
+    <h1 id="currentFolderName">Bloco de Notas</h1>
+    <div class="menu-container">
+      <button id="configBtn">⚙️</button>
+      <div id="configMenu" class="options-menu hidden">
+        <button id="openTrashBtn">🗑️ Lixeira</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-button active">Notas</button>
+    <button id="editBtn">✏️</button>
+  </div>
+
+  <div class="tab-content active">
+    <div class="input-area">
+      <input type="text" id="itemInput" placeholder="Adicionar">
+      <div class="menu-container">
+        <button id="addBtn">+</button>
+        <div id="addOptionsMenu" class="options-menu hidden">
+          <button id="createFolderBtn">Pasta</button>
+          <button id="createNoteBtn">Nota</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="editActions" class="edit-actions-container hidden">
+      <button id="deleteSelectedBtn">Excluir</button>
+    </div>
+
+    <div id="customConfirm" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="modal-icon"><img src="icons/alert.png" id="alert"></div>
+        <p id="modalText" class="modal-text">Tem certeza?</p>
+        <p id="modalSubtext" class="modal-subtext"></p>
+        <div class="modal-buttons">
+          <button id="confirmDelete" class="confirm-button">Confirmar</button>
+          <button id="cancelDelete" class="cancel-button">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="contentGrid"></div>
+  </div
+</div>
+
+<div id="trash-container" class="hidden">
+  <header>
+    <button id="backBtnTrash" class="back-btn">&lt;</button>
+    <h1>Lixeira</h1>
+    <button id="restoreSelectedBtn" class="trash-header-btn">♻</button>
+  </header>
+  <div id="trashActions" class="hidden">
+    <button id="deleteFromTrashBtn" class="trash-delete-btn">Excluir</button>
+  </div>
+  <div id="trashList"></div>
+</div>
+
+
+<div id="note-editor-container" class="hidden">
+  <div class="note-header">
+    <button id="backBtnEditor" class="back-btn">&lt;</button>
+    <span id="charCounter">Caracteres: 0</span>
+  </div>
+  <hr>
+  <h2 id="noteTitle" contenteditable="true" placeholder="Título da Nota"></h2>
+  <div id="noteContent" contenteditable="true" placeholder="Digite algo..."></div>
+</div>
+
+
+</body>
+</html>
