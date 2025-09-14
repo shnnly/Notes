@@ -1,61 +1,50 @@
-const CACHE_NAME = 'notes-offline-v1';
-const CORE_ASSETS = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.json',
-  '/icons/alert.png'
+const CACHE_NAME = 'notes';
+const urlsToCache = [
+  './',
+  './index.html',
+  './style.css',
+  './script.js',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(CORE_ASSETS))
-      .then(() => self.skipWaiting())
-  );
-});
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
-    ).then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-
-  const url = new URL(req.url);
-
-  if (req.mode === 'navigate') {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put('/index.html', copy));
-          return res;
-        })
-        .catch(() => caches.match('/index.html'))
-    );
-    return;
-  }
-
-  if (url.origin === self.location.origin) {
-    event.respondWith(
-      caches.match(req).then((cached) => {
-        if (cached) return cached;
-        return fetch(req).then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          return res;
-        });
+      .then(cache => {
+        console.log('Cache aberto com sucesso!');
+        return cache.addAll(urlsToCache);
       })
-    );
-    return;
-  }
+      .catch(error => {
+        console.error('Falha ao adicionar arquivos ao cache:', error);
+      })
+  );
+});
 
-  event.respondWith(fetch(req).catch(() => caches.match(req)));
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      })
+  );
+});
+
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
 });
