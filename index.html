@@ -9,7 +9,8 @@
   <link rel="manifest" href="manifest.json">
 
   <script src="script.js" defer></script>
-  <script src="sw.js" defer></script>
+
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
 </head>
 <body>
 
@@ -20,6 +21,7 @@
     <div class="menu-container">
       <button id="configBtn">⚙️</button>
       <div id="configMenu" class="options-menu hidden">
+        <button id="openColorBtn">🎨 Temas</button>
         <button id="openTrashBtn">🗑️ Lixeira</button>
       </div>
     </div>
@@ -69,11 +71,52 @@
     <h1>Lixeira</h1>
     <button id="restoreSelectedBtn" class="trash-header-btn">♻</button>
   </header>
+
+  <br>
+
   <div id="trashActions" class="hidden">
     <button id="deleteFromTrashBtn" class="trash-delete-btn">Excluir</button>
   </div>
+
+  <hr>
+
   <div id="trashList"></div>
 </div>
+
+<div id="color-container" class="hidden">
+    <header>
+      <button id="backBtnColor" class="back-btn">&lt;</button>
+      <h1>Temas</h1>
+    </header>
+    <div id="colorList"></div>
+</div>
+
+<div id="custom-theme-container" class="hidden">
+    <header>
+        <button id="backBtnCustomTheme" class="back-btn">&lt;</button>
+        <h1>Personalizar Tema</h1>
+        <button id="saveCustomThemeBtn" class="trash-header-btn">✔️</button>
+    </header>
+    <div class="customization-area">
+        <div class="customization-section" data-target-var="--main-bg-color">
+            <h4>Fundo</h4>
+            <div class="color-palette-grid"></div>
+        </div>
+        <div class="customization-section" data-target-var="--container-bg-color">
+            <h4>Containers</h4>
+            <div class="color-palette-grid"></div>
+        </div>
+        <div class="customization-section" data-target-var="--accent-color">
+            <h4>Botões</h4>
+            <div class="color-palette-grid"></div>
+        </div>
+        <div class="customization-section" data-target-var="--primary-text-color">
+            <h4>Texto e Linhas</h4>
+            <div class="color-palette-grid"></div>
+        </div>
+    </div>
+</div>
+
 
 <div id="note-editor-container" class="hidden">
   <div class="note-header">
